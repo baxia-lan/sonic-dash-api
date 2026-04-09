@@ -1,0 +1,31 @@
+"""sonic-dash-api Debian packages — migrated from rules/sonic-dash-api.mk."""
+
+load("//rules/bazel/deb:deb.bzl", "deb_package_set")
+
+package(default_visibility = ["//visibility:public"])
+
+deb_package_set(
+    name = "sonic_dash_api_debs",
+    srcs = glob(
+        ["**/*"],
+        exclude = [
+            ".git/**",
+            "BUILD.bazel",
+        ],
+    ),
+    build_deps = [
+        "//build/deb/sonic-swss-common:swss_common_dev",
+    ],
+    debian_dir = "debian",
+    declared_outputs = [
+        "libdashapi_1.0.0_$(ARCH).deb",
+    ],
+    version = "1.0.0",
+    visibility = ["//visibility:public"],
+)
+
+alias(
+    name = "sonic_dash_api",
+    actual = ":sonic_dash_api_debs",
+    visibility = ["//visibility:public"],
+)
